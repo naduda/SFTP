@@ -17,11 +17,11 @@ public class PutFile {
 	    
 	    String server = args[0];
 	    int port = 22;
-	    if (args[1] != null) port = Integer.parseInt(args[1]);
+	    if (args.length > 1) port = Integer.parseInt(args[1]);
 	    String localDir = "c:/Users/pavel.naduda/Desktop/updates/r2d2m";
-	    if (args[2] != null) localDir = args[2];
+	    if (args.length > 2) localDir = args[2];
 	    String remouteDir = "/home/powersys";
-	    if (args[3] != null) remouteDir = args[3];
+	    if (args.length > 3) remouteDir = args[3];
 	    
 	    long start = System.currentTimeMillis();
 	    long b = start;
@@ -56,7 +56,10 @@ public class PutFile {
 	        sftpChannel.put(localDir, remouteDir);
 	        System.out.println("coped c:/Users/pavel.naduda/Desktop/updates/r2d2m to /home/powersys");
 	        System.out.println();
-	        System.out.println("TOTAL TIME - " + (System.currentTimeMillis() - b)/1000 + " s");
+	        long totalTime = (System.currentTimeMillis() - b)/1000;
+	        System.out.print("TOTAL TIME - " + totalTime + " s");
+	        if (totalTime > 60) System.out.print("   -->   " + (int)totalTime/60 + " min");
+	        System.out.println();
 
 	        executeCommand(session, "reboot");
 	        System.out.println("reboot");
