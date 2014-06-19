@@ -32,8 +32,6 @@ public class PutFile {
 	        session.connect();
 
 	        System.out.println(session.getClientVersion() + " - " + (System.currentTimeMillis() - start)/1000 + " s");
-//	        executeCommand(session, "reboot");
-//	        System.out.println("reboot");
 	        
 	        executeCommand(session, "killall check_r2d2m.sh");
 	        System.out.println("killall check_r2d2m.sh - " + (System.currentTimeMillis() - start)/1000 + " s");
@@ -76,7 +74,7 @@ public class PutFile {
 		try {
 			ChannelExec channel = (ChannelExec) session.openChannel("exec");
 			
-			((ChannelExec) channel).setCommand( script);
+			((ChannelExec) channel).setCommand(script);
 			InputStream in = channel.getInputStream();
 			((ChannelExec) channel).setErrStream(System.err);
 
@@ -94,7 +92,7 @@ public class PutFile {
 					break;
 				}
 				try {
-					Thread.sleep(1000);
+					Thread.sleep(500);
 				} catch (Exception ee) {
 					System.err.println(ee);
 				}
