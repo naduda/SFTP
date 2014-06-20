@@ -34,9 +34,7 @@ public class PutFile {
 	        System.out.println(session.getClientVersion() + " - " + (System.currentTimeMillis() - start)/1000 + " s");
 	        
 	        executeCommand(session, "killall check_r2d2m.sh");
-	        System.out.println("killall check_r2d2m.sh - " + (System.currentTimeMillis() - start)/1000 + " s");
 	        executeCommand(session, "killall r2d2m");
-	        System.out.println("killall r2d2m - " + (System.currentTimeMillis() - start)/1000 + " s");
 	        
 	        Channel channel = session.openChannel("sftp");
 	        channel.connect();
@@ -47,7 +45,6 @@ public class PutFile {
 			Vector<ChannelSftp.LsEntry> list = sftpChannel.ls("/home/powersys/log/*"); 
         	for (ChannelSftp.LsEntry listEntry : list) {
         		executeCommand(session, "rm -rf /home/powersys/log/" + listEntry.getFilename());
-        		System.out.println("rm -rf /home/powersys/log/" + listEntry.getFilename() + "   --> OK");
         	}
 	        
         	System.out.println("coping ...");
@@ -60,7 +57,6 @@ public class PutFile {
 	        System.out.println();
 
 	        executeCommand(session, "reboot");
-	        System.out.println("reboot");
 	    } catch (JSchException | SftpException e) {
 	    	System.err.println("Error in main   !!!");
 	        e.printStackTrace(); 
@@ -72,6 +68,7 @@ public class PutFile {
 	
 	public static void executeCommand(Session session, String script) {
 		try {
+			System.out.print(script + "   -->   ");
 			ChannelExec channel = (ChannelExec) session.openChannel("exec");
 			
 			((ChannelExec) channel).setCommand(script);
@@ -89,6 +86,7 @@ public class PutFile {
 					System.out.print(new String(tmp, 0, i));
 				}
 				if (channel.isClosed()) {
+					System.out.println("Successfully!");
 					break;
 				}
 				try {
